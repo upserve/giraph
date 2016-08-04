@@ -1,8 +1,17 @@
 # Giraph
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/giraph`. To experiment with that code, run `bin/console` for an interactive prompt.
+_(Pronounced with a G as in GIF)_
 
-TODO: Delete this and the text above, and describe your gem
+Ever wanted to have multiple GraphQL endpoints presented under one? 
+
+Ever felt like interactions between micro-services are not DRY enough?
+
+If so, you'll feel right at home with Giraph. 
+
+Giraph allows you to plug-in a remote GraphQL endpoint under another one as a regular field.
+You can now plug a remote GraphQL endpoint in as a field anywhere within your type hierarchy, 
+allow clients to send a single unified query, have the remote servers resolve their respective
+sub-queries and return a valid response that all seamlessly comes together.
 
 ## Installation
 
@@ -32,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/giraph.
+Bug reports and pull requests are welcome on GitHub at https://github.com/upserve/giraph.
 
 
 ## License
