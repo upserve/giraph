@@ -1,4 +1,7 @@
 module Giraph
+  # Defines a thin & sane API for the sub-query extraction
+  # from the context provided to resolvers via AST, graphql-ruby API
+  # and a touch of regex.
   class Subquery
     attr_reader :query, :query_string
 

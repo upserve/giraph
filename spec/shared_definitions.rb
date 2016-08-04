@@ -15,6 +15,14 @@ shared_context 'sample graphql structure' do
       name 'the_type'
 
       field :res, types.Int
+
+      field :argd do
+        type types.Int
+        argument :arg1, !types.String
+        resolve -> (o, a, c) {
+          10
+        }
+      end
     end
 
     GraphQL::ObjectType.define do
@@ -23,6 +31,11 @@ shared_context 'sample graphql structure' do
       field :test do
         type the_type
         argument :foo, types.String
+        resolve MockResolver
+      end
+
+      field :remote do
+        type the_type
         resolve MockResolver
       end
 
@@ -58,6 +71,11 @@ shared_context 'sample graphql structure' do
       field :test do
         type mutation_type
         argument :foo, types.String
+        resolve MockResolver
+      end
+
+      field :remote do
+        type mutation_type
         resolve MockResolver
       end
 
