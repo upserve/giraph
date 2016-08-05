@@ -4,8 +4,12 @@ module Giraph
   class Resolver
     class UnknownOperation < StandardError; end
 
-    def initialize(resolver_method)
-      @resolver_method = resolver_method
+    def self.for(method_name)
+      new(method_name)
+    end
+
+    def initialize(method_name)
+      @method_name = method_name
     end
 
     # Resolves the field by calling the previously given method
@@ -21,7 +25,7 @@ module Giraph
       end
 
       # Call the requested method on resolver
-      resolver.send(@resolver_method, obj, args, ctx)
+      resolver.send(@method_name, obj, args, ctx)
     end
   end
 end
