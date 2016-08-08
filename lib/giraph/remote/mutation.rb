@@ -9,6 +9,12 @@ module Giraph
           &block
         )
       end
+
+      private
+
+      def query_type
+        'mutation'
+      end
     end
   end
 end

@@ -20,11 +20,33 @@ module Giraph
         # Given an evaluator block, continue if only it evaluates to non-nil!
         return unless (remote_root = @evaluator.call(obj, args, ctx))
 
+        subquery = Subquery.new(ctx)
+
         # Continue with remote query execution
-        connector.resolve(ctx, remote_root: remote_root.to_h)
+        connector.resolve(
+          ctx,
+          query_string(subquery),
+          query_variables(subquery, remote_root)
+        )
       end
 
       private
+
+      def query_type
+        'query'
+      end
+
+      def query_string(subquery)
+        # Full GraphQL query for remote
+        "#{query_type} #{subquery.subquery_string}"
+      end
+
+      def query_variables(subquery, remote_root)
+        # Variable hash to send along
+        subquery.variable_string do |dict|
+          dict.merge(__giraph_root__: remote_root)
+        end
+      end
 
       def default_evaluator(*args)
         {}

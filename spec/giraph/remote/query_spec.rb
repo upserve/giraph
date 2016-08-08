@@ -4,10 +4,21 @@ describe Giraph::Remote::Query do
   include_context 'sample graphql structure'
 
   let(:connector) { double(Giraph::Remote::Connector) }
+  let(:subquery) { double(Giraph::Subquery) }
+
+  let(:subquery_string) { 'GiraphQuery { bar { baz } }' }
+  let(:variable_string) { '{ "foo": 1000 }' }
 
   let(:object) { { some: 'object' } }
   let(:args) { { some: 'args' } }
   let(:context) { { some: 'context' } }
+
+  before do
+    allow(Giraph::Subquery).to receive(:new).and_return(subquery)
+
+    allow(subquery).to receive(:subquery_string).and_return(subquery_string)
+    allow(subquery).to receive(:variable_string).and_return(variable_string)
+  end
 
   context 'given an evaluator block' do
     subject { described_class.new('endpoint', connector, &evaluator) }
@@ -20,7 +31,11 @@ describe Giraph::Remote::Query do
       it 'calls the block before resolving' do
         expect(connector)
           .to receive(:resolve)
-          .with({ some: 'context' }, remote_root: { foo: :bar })
+          .with(
+            { some: 'context' },
+            "query #{subquery_string}",
+            variable_string
+          )
           .and_return(good: 'data')
 
         expect(subject.call(object, args, context)).to eq(good: 'data')
@@ -44,7 +59,11 @@ describe Giraph::Remote::Query do
     it 'calls the default evaluator' do
       expect(connector)
         .to receive(:resolve)
-        .with({ some: 'context' }, remote_root: {})
+        .with(
+        { some: 'context' },
+        "query #{subquery_string}",
+        variable_string
+      )
         .and_return(good: 'data')
 
       expect(subject.call(object, args, context)).to eq(good: 'data')

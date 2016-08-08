@@ -12,30 +12,17 @@ module Giraph
       end
 
       # The resolver method for the connection field.
-      def resolve(context, remote_root: {})
-        subquery = Subquery.new(context)
-
-        # Full GraphQL query for remote
-        query = "#{query_type} #{subquery.subquery_string}"
-
-        # Variable hash to send along
-        variables = subquery.variable_string do |dict|
-          dict.merge(__giraph_root__: remote_root)
-        end
-
+      def resolve(context, query_string, query_variables)
         # Remote can return data, error or totally freak out,
         # we handle all here, and note anything of relevance
-        return_data_or_raise(run_query(query, variables)) do |exception|
+        result = run_query(query_string, query_variables)
+        return_data_or_raise(result) do |exception|
           # Tack on details for host's version of the query
           exception.ast_node = context.ast_node
         end
       end
 
       private
-
-      def query_type
-        @mutation ? 'mutation' : 'query'
-      end
 
       def run_query(query, variable)
         Net::HTTP.post_form(URI(@endpoint), query: query, variables: variable)
