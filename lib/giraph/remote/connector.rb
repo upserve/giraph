@@ -2,13 +2,10 @@ module Giraph
   module Remote
     class InvalidResponse < StandardError; end
 
-    # Reconstructs a valid GraphQL root-query from the current
-    # field in question, including all variables and params,
-    # sends the query request and parses the response.
+    # sends the reconstructed subquery request and parses the response.
     class Connector
-      def initialize(endpoint, mutation: false)
+      def initialize(endpoint)
         @endpoint = endpoint
-        @mutation = mutation
       end
 
       # The resolver method for the connection field.

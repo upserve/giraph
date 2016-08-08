@@ -5,7 +5,7 @@ module Giraph
       def self.bind(endpoint, &block)
         new(
           endpoint,
-          Remote::Connector.new(endpoint, mutation: false),
+          Remote::Connector.new(endpoint),
           &block
         )
       end
@@ -16,6 +16,9 @@ module Giraph
         @connector = connector
       end
 
+      # Reconstructs a valid GraphQL root-query from the current
+      # field in question, including all variables and params,
+      # hands over to connector to execute remotely.
       def call(obj, args, ctx)
         # Given an evaluator block, continue if only it evaluates to non-nil!
         return unless (remote_root = @evaluator.call(obj, args, ctx))
@@ -52,7 +55,7 @@ module Giraph
         {}
       end
 
-      attr_reader :endpoint, :mutation, :connector
+      attr_reader :endpoint, :connector
     end
   end
 end

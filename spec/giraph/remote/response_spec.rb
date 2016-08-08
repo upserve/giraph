@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Giraph::Remote::Response do
-  describe '#from_json' do
+  describe '.from_json' do
     let(:sample_json) do
       {
         answer: 42,
