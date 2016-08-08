@@ -19,13 +19,13 @@ module Giraph
         query = "#{query_type} #{subquery.subquery_string}"
 
         # Variable hash to send along
-        variable = subquery.variable_string do |dict|
+        variables = subquery.variable_string do |dict|
           dict.merge(__giraph_root__: remote_root)
         end
 
         # Remote can return data, error or totally freak out,
         # we handle all here, and note anything of relevance
-        return_data_or_raise(run_query(query, variable)) do |exception|
+        return_data_or_raise(run_query(query, variables)) do |exception|
           # Tack on details for host's version of the query
           exception.ast_node = context.ast_node
         end
