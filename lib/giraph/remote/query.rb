@@ -2,11 +2,18 @@ module Giraph
   module Remote
     # Field resolver to plug a remote GraphQL query root into a local type
     class Query
-      def initialize(endpoint, &block)
+      def self.bind(endpoint, &block)
+        new(
+          endpoint,
+          Remote::Connector.new(endpoint, mutation: false),
+          &block
+        )
+      end
+
+      def initialize(endpoint, connector, &block)
         @endpoint = endpoint
         @evaluator = block || method(:default_evaluator)
-        # Default is a query, can be overriden by sub-classes
-        @mutation = false
+        @connector = connector
       end
 
       def call(obj, args, ctx)
@@ -19,15 +26,11 @@ module Giraph
 
       private
 
-      def connector
-        @connector ||= Remote::Connector.new(endpoint, mutation: mutation)
-      end
-
       def default_evaluator(*args)
         {}
       end
 
-      attr_reader :endpoint, :mutation
+      attr_reader :endpoint, :mutation, :connector
     end
   end
 end

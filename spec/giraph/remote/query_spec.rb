@@ -10,7 +10,7 @@ describe Giraph::Remote::Query do
   let(:context) { { some: 'context' } }
 
   context 'given an evaluator block' do
-    subject { described_class.new('endpoint', &evaluator) }
+    subject { described_class.new('endpoint', connector, &evaluator) }
 
     let(:evaluator) { -> (o, a, c) { evaluator_response } }
 
@@ -18,11 +18,6 @@ describe Giraph::Remote::Query do
       let(:evaluator_response) { { foo: :bar } }
 
       it 'calls the block before resolving' do
-        expect(Giraph::Remote::Connector)
-          .to receive(:new)
-          .with('endpoint', mutation: false)
-          .and_return(connector)
-
         expect(connector)
           .to receive(:resolve)
           .with({ some: 'context' }, remote_root: { foo: :bar })
@@ -36,7 +31,6 @@ describe Giraph::Remote::Query do
       let(:evaluator_response) { nil }
 
       it 'does not let the request continue' do
-        expect(Giraph::Remote::Connector).to_not receive(:new)
         expect(connector).to_not receive(:resolve)
 
         expect(subject.call(object, args, context)).to_not be
@@ -45,14 +39,9 @@ describe Giraph::Remote::Query do
   end
 
   context 'given no evaluator block' do
-    subject { described_class.new('endpoint') }
+    subject { described_class.new('endpoint', connector) }
 
     it 'calls the default evaluator' do
-      expect(Giraph::Remote::Connector)
-        .to receive(:new)
-        .with('endpoint', mutation: false)
-        .and_return(connector)
-
       expect(connector)
         .to receive(:resolve)
         .with({ some: 'context' }, remote_root: {})
