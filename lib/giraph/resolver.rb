@@ -25,7 +25,7 @@ module Giraph
       end
 
       # Call the requested method on resolver
-      resolver.send(@method_name, obj, args, ctx)
+      resolver.public_send(@method_name, obj, args, ctx)
     end
   end
 end
