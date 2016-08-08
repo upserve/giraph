@@ -44,13 +44,13 @@ module Giraph
     def query_variables
       # Recreates the declared query parameters to be passed on
       # to the remote host.
-      declerations = query
+      declarations = query
                      .selected_operation
                      .variables
                      .select(&method(:variable_used?))
                      .map(&method(:variable_decleration))
 
-      "(#{declerations.join(', ')})" unless declerations.empty?
+      "(#{declarations.join(', ')})" unless declarations.empty?
     end
 
     def variable_used?(variable)
