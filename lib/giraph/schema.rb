@@ -1,13 +1,13 @@
 module Giraph
   # GraphQL::Schema wrapper allowing decleration of
   # resolver objects per op type (query or mutation)
-  class Schema < GraphQL::Schema
+  class Schema < DelegateClass(GraphQL::Schema)
     # Extract special arguments for resolver objects,
     # let the rest pass-through
     def initialize(**args)
       @query_resolver = args.delete(:query_resolver)
       @mutation_resolver = args.delete(:mutation_resolver)
-      super
+      super(GraphQL::Schema.new(**args))
     end
 
     # Defer the execution only after setting up
@@ -19,6 +19,8 @@ module Giraph
 
       super(query, **args)
     end
+
+    private
 
     def with_giraph_root(args)
       # Extract & remove the special __giraph_root__ key
