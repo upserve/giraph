@@ -42,7 +42,7 @@ module Giraph
       end
 
       def return_data_or_raise(response, &block)
-        result = to_giraph_json(response.body)
+        result = Remote::Response.from_json(response.body)
 
         # Remote returned a valid result set, pass it through
         return result[:data] if result[:data]
@@ -63,17 +63,6 @@ module Giraph
           # Allow exception to be modified if needed
           block.call(ex) if block
         end
-      end
-
-      # We specifically parse JSON using Giraph::Remote::Response
-      # in place of regular Hash so that downstreams can realize
-      # that this is a Giraph-sourced remote response.
-      def to_giraph_json(raw_json)
-        JSON.parse(
-          raw_json,
-          symbolize_names: true,
-          object_class: Remote::Response
-        )
       end
     end
   end
