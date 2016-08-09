@@ -5,7 +5,7 @@ module Giraph
       def self.bind(endpoint, &block)
         new(
           endpoint,
-          Remote::Connector.new(endpoint, mutation: true),
+          Remote::Connector.new(endpoint),
           &block
         )
       end
