@@ -1,6 +1,6 @@
 <img height='196px' src='https://github.com/upserve/giraph/blob/master/github-header.png?raw=true'>
 
-> _(Pronounced with a G as in GIF)_
+> _(Pronounced "Giraph" as in GIF)_
 
 Ever wanted to have multiple GraphQL endpoints presented under one? 
 
