@@ -1,17 +1,19 @@
-# Giraph
+<img height='196px' src='https://github.com/upserve/giraph/blob/master/github-header.png?raw=true'>
 
-_(Pronounced with a G as in GIF)_
+> _(Pronounced with a G as in GIF)_
 
 Ever wanted to have multiple GraphQL endpoints presented under one? 
 
-Ever felt like interactions between micro-services are not DRY enough?
+Ever felt like interactions between your micro-services are not DRY enough?
 
-If so, you'll feel right at home with Giraph. 
+Ever found yourself thinking "there has to be a better way!"
 
-Giraph allows you to plug-in a remote GraphQL endpoint under another one as a regular field.
-You can now plug a remote GraphQL endpoint in as a field anywhere within your type hierarchy, 
-allow clients to send a single unified query, have the remote servers resolve their respective
-sub-queries and return a valid response that all seamlessly comes together.
+If so, welcome to Giraph!
+
+Giraph allows you to plug a remote GraphQL endpoint under your GraphQL enddpoint as a regular field.
+You can now execute queries and mutations on the remote as if it was a regular field anywhere within your type hierarchy, 
+allowing clients to have a single point of interaction. Have the remote servers handle their respective
+sub-queries and just plug the response back in to your result seamlessly.
 
 ## Installation
 
@@ -31,7 +33,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO: Provide usage examples (remote hierarchy, local hierarchy, definition gem etc.)
 
 ## Development
 
