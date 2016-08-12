@@ -50,3 +50,6 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/upserv
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## Attributions
+
+Giraph logo is from [Neel Mehta's icon set](http://findicons.com/icon/463966/giraffe)
